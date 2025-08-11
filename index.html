@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TecnoCare - Gestión Responsable de Equipos Tecnológicos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .section-fade {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        
+        .section-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .nav-item {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: #3b82f6;
+            transition: left 0.3s ease;
+        }
+        
+        .nav-item:hover::after {
+            left: 0;
+        }
+        
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        .pulse-button {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+        
+        .form-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .campaign-card {
+            background: linear-gradient(145deg, #f8fafc, #e2e8f0);
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .stat-counter {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-indigo-600">TecnoCare</h1>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#inicio" class="nav-item text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Inicio</a>
+                    <a href="#proyecto" class="nav-item text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Proyecto</a>
+                    <a href="#registro" class="nav-item text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Registro de Fallas</a>
+                    <a href="#campanas" class="nav-item text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Campañas</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-indigo-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#inicio" class="block px-3 py-2 text-gray-700 hover:text-indigo-600">Inicio</a>
+                <a href="#proyecto" class="block px-3 py-2 text-gray-700 hover:text-indigo-600">Proyecto</a>
+                <a href="#registro" class="block px-3 py-2 text-gray-700 hover:text-indigo-600">Registro de Fallas</a>
+                <a href="#campanas" class="block px-3 py-2 text-gray-700 hover:text-indigo-600">Campañas</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="gradient-bg min-h-screen flex items-center relative overflow-hidden">
+        <div class="floating-elements">
+            <i class="fas fa-laptop floating-element text-6xl" style="top: 10%; left: 10%; animation-delay: 0s;"></i>
+            <i class="fas fa-tablet floating-element text-4xl" style="top: 20%; right: 15%; animation-delay: 1s;"></i>
+            <i class="fas fa-mobile-alt floating-element text-5xl" style="bottom: 30%; left: 20%; animation-delay: 2s;"></i>
+            <i class="fas fa-desktop floating-element text-6xl" style="bottom: 15%; right: 10%; animation-delay: 3s;"></i>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-white">
+                    <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                        Gestión <span class="text-yellow-300">Responsable</span> de Equipos Tecnológicos
+                    </h1>
+                    <p class="text-xl mb-8 text-gray-200 leading-relaxed">
+                        Promovemos el uso responsable y el mantenimiento eficiente de los equipos tecnológicos institucionales a través de campañas educativas y sistemas de gestión innovadores.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#proyecto" class="pulse-button bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-all text-center">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            Conocer el Proyecto
+                        </a>
+                        <a href="#registro" class="bg-white text-indigo-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all text-center">
+                            <i class="fas fa-clipboard-list mr-2"></i>
+                            Reportar Falla
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5cab8e35-6314-4402-bf0a-b334e6d573d8.png" alt="Modern institutional technology management system showing computers, tablets, and digital devices in a clean educational environment with students and staff using equipment responsibly" class="w-full h-auto rounded-lg shadow-2xl" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="bg-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="section-fade">
+                    <div class="stat-counter" data-target="0">0</div>
+                    <p class="text-gray-600 font-medium">Equipos Registrados</p>
+                </div>
+                <div class="section-fade">
+                    <div class="stat-counter" data-target="0">0</div>
+                    <p class="text-gray-600 font-medium">Usuarios Capacitados</p>
+                </div>
+                <div class="section-fade">
+                    <div class="stat-counter" data-target="95">0</div>
+                    <p class="text-gray-600 font-medium">% Eficiencia</p>
+                </div>
+                <div class="section-fade">
+                    <div class="stat-counter" data-target="24">0</div>
+                    <p class="text-gray-600 font-medium">Soporte 24/7</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Information Section -->
+    <section id="proyecto" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 section-fade">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Información del Proyecto</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    TecnoCare es una iniciativa integral diseñada para optimizar el uso y mantenimiento de equipos tecnológicos institucionales
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+                <div class="section-fade">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ed190f9d-eb77-440a-b529-61af67f77fd2.png" alt="Team of IT professionals and educators collaborating on technology equipment maintenance in a modern institutional setting with laptops, servers, and diagnostic tools" class="w-full h-auto rounded-lg shadow-lg" />
+                </div>
+                <div class="section-fade">
+                    <h3 class="text-3xl font-bold text-gray-900 mb-6">Objetivos del Proyecto</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-2 rounded-full mr-4 mt-1">
+                                <i class="fas fa-users text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Educación y Concienciación</h4>
+                                <p class="text-gray-600">Implementar campañas educativas para promover el uso responsable de equipos tecnológicos</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-green-100 p-2 rounded-full mr-4 mt-1">
+                                <i class="fas fa-tools text-green-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Gestión de Mantenimiento</h4>
+                                <p class="text-gray-600">Establecer un sistema eficiente de registro y seguimiento de fallas y mantenimiento</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 p-2 rounded-full mr-4 mt-1">
+                                <i class="fas fa-chart-line text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Optimización de Recursos</h4>
+                                <p class="text-gray-600">Maximizar la vida útil y eficiencia de los equipos tecnológicos institucionales</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 section-fade">
+                <div class="card-hover bg-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-lightbulb text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Innovación</h3>
+                    <p class="text-gray-600">Implementación de tecnologías modernas para la gestión eficiente de equipos</p>
+                </div>
+                <div class="card-hover bg-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-leaf text-2xl text-green-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Sostenibilidad</h3>
+                    <p class="text-gray-600">Promover prácticas responsables que extiendan la vida útil de los equipos</p>
+                </div>
+                <div class="card-hover bg-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-graduation-cap text-2xl text-purple-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Educación</h3>
+                    <p class="text-gray-600">Capacitación continua para usuarios en el manejo adecuado de tecnología</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fault Registration System -->
+    <section id="registro" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 section-fade">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Sistema de Registro de Fallas</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Reporta cualquier problema con los equipos tecnológicos de manera rápida y eficiente
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="section-fade">
+                    <div class="form-container p-8 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Formulario de Reporte</h3>
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-info-circle text-blue-600 text-xl mr-3"></i>
+                                <h4 class="font-semibold text-blue-900">Información Importante</h4>
+                            </div>
+                            <p class="text-blue-800 text-sm">
+                                Al hacer clic en el botón de abajo, serás redirigido a nuestro formulario de Google Forms donde podrás reportar detalladamente cualquier falla o problema con los equipos tecnológicos.
+                            </p>
+                        </div>
+                        
+                        <div class="space-y-4 mb-6">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span class="text-gray-700">Proceso rápido y sencillo</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span class="text-gray-700">Seguimiento en tiempo real</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span class="text-gray-700">Respuesta prioritaria</span>
+                            </div>
+                        </div>
+                        
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLScKN8_naCGieJzcSCUJ5-VwNasd46WIDmsV5Iw5mKyOdSioQg/viewform?usp=header" target="_blank" class="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-all text-center inline-block">
+                            <i class="fas fa-external-link-alt mr-2"></i>
+                            Acceder al Formulario
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="section-fade">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e1d968c8-8f8f-4f55-b74b-f652b9921a3b.png" alt="Digital interface showing a comprehensive fault reporting system with forms, equipment status monitoring, and maintenance tracking dashboard in a modern institutional technology environment" class="w-full h-auto rounded-lg shadow-lg mb-6" />
+                    
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h4 class="text-lg font-semibold text-gray-900 mb-4">Tipos de Reportes</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="text-center">
+                                <div class="bg-red-100 p-3 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">
+                                    <i class="fas fa-exclamation-triangle text-red-600"></i>
+                                </div>
+                                <span class="text-sm font-medium text-gray-700">Fallas Críticas</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="bg-yellow-100 p-3 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">
+                                    <i class="fas fa-wrench text-yellow-600"></i>
+                                </div>
+                                <span class="text-sm font-medium text-gray-700">Mantenimiento</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="bg-blue-100 p-3 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">
+                                    <i class="fas fa-cog text-blue-600"></i>
+                                </div>
+                                <span class="text-sm font-medium text-gray-700">Configuración</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="bg-green-100 p-3 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">
+                                    <i class="fas fa-plus text-green-600"></i>
+                                </div>
+                                <span class="text-sm font-medium text-gray-700">Mejoras</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Educational Campaigns Section -->
+    <section id="campanas" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 section-fade">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Campañas Educativas Digitales</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Conoce nuestras iniciativas para promover el uso responsable de la tecnología
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="campaign-card p-6 rounded-lg shadow-lg section-fade card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-shield-alt text-blue-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Uso Seguro</h3>
+                    </div>
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f3391a70-8ec1-4098-b228-44c6e37419d4.png" alt="Educational illustration showing proper cybersecurity practices, safe device handling, and digital security protocols in an institutional technology environment with students learning proper procedures" class="w-full h-48 object-cover rounded-lg mb-4" />
+                    <p class="text-gray-600 mb-4">
+                        Aprende las mejores prácticas para mantener la seguridad de los equipos y la información institucional.
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Contraseñas seguras</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Navegación responsable</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Protección de datos</li>
+                    </ul>
+                </div>
+                
+                <div class="campaign-card p-6 rounded-lg shadow-lg section-fade card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-recycle text-green-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Cuidado del Equipo</h3>
+                    </div>
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/35d5d8f2-fd72-4c85-907f-337ffcd433be.png" alt="Professional demonstration of proper computer and device maintenance techniques showing clean workspace, proper cable management, and careful handling of electronic equipment in educational setting" class="w-full h-48 object-cover rounded-lg mb-4" />
+                    <p class="text-gray-600 mb-4">
+                        Descubre cómo mantener los equipos en óptimas condiciones y extender su vida útil.
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Limpieza adecuada</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Manejo cuidadoso</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Almacenamiento correcto</li>
+                    </ul>
+                </div>
+                
+                <div class="campaign-card p-6 rounded-lg shadow-lg section-fade card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-users-cog text-purple-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Uso Colaborativo</h3>
+                    </div>
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d6081ef0-170a-41ae-9937-bed30801ca72.png" alt="Group of students and educators collaboratively using shared technology resources in a modern classroom setting, demonstrating respectful sharing, scheduling, and cooperative learning with digital devices" class="w-full h-48 object-cover rounded-lg mb-4" />
+                    <p class="text-gray-600 mb-4">
+                        Normas y protocolo para el uso compartido y respetuoso de los recursos tecnológicos.
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Turnos organizados</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Respeto por el equipo</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Comunicación efectiva</li>
+                    </ul>
+                </div>
+                
+                <div class="campaign-card p-6 rounded-lg shadow-lg section-fade card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-orange-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-graduation-cap text-orange-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Capacitación Digital</h3>
+                    </div>
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ea7254e1-a3f5-4515-8f88-a4c50d0773fa.png" alt="Interactive digital training session showing instructors teaching proper technology usage, software best practices, and digital literacy skills to institutional staff and students in a modern learning environment" class="w-full h-48 object-cover rounded-lg mb-4" />
+                    <p class="text-gray-600 mb-4">
+                        Programas de formación para mejorar las competencias digitales de toda la comunidad.
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Talleres prácticos</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Recursos en línea</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Certificaciones</li>
+                    </ul>
+                </div>
+                
+                <div class="campaign-card p-6 rounded-lg shadow-lg section-fade card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-red-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-exclamation-circle text-red-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Reporte Oportuno</h3>
+                    </div>
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/29b79f50-46eb-4126-bd70-4492703cf68d.png" alt="Clear visual guide showing step-by-step process for reporting technology issues, including identification of problems, proper documentation, and timely communication channels in institutional setting" class="w-full h-48 object-cover rounded-lg mb-4" />
+                    <p class="text-gray-600 mb-4">
+                        Conoce cuándo y cómo reportar problemas para mantener los equipos funcionando correctamente.
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Identificación temprana</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Proceso de reporte</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Seguimiento efectivo</li>
+                    </ul>
+                </div>
+                
+                <div class="campaign-card p-6 rounded-lg shadow-lg section-fade card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-teal-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-lightbulb text-teal-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Innovación</h3>
+                    </div>
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/644725f0-fa63-46ca-8158-245317a0f362.png" alt="Modern technology innovation showcase featuring cutting-edge educational tools, smart devices, and forward-thinking digital solutions being explored and implemented in progressive institutional environment" class="w-full h-48 object-cover rounded-lg mb-4" />
+                    <p class="text-gray-600 mb-4">
+                        Explora nuevas tecnologías y metodologías para optimizar el uso de recursos digitales.
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Nuevas herramientas</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Metodologías avanzadas</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Proyectos piloto</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">TecnoCare</h3>
+                    <p class="text-gray-400 mb-4">
+                        Gestionando responsablemente los recursos tecnológicos institucionales para un futuro sostenible.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Enlaces Rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#inicio" class="text-gray-400 hover:text-white transition-colors">Inicio</a></li>
+                        <li><a href="#proyecto" class="text-gray-400 hover:text-white transition-colors">Proyecto</a></li>
+                        <li><a href="#registro" class="text-gray-400 hover:text-white transition-colors">Registro de Fallas</a></li>
+                        <li><a href="#campanas" class="text-gray-400 hover:text-white transition-colors">Campañas</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Servicios</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Mantenimiento</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Capacitación</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Soporte Técnico</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Consultoría</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contacto</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p><i class="fas fa-envelope mr-2"></i>juanmanuelvillamizar59@gmail.com</p>
+                        <p><i class="fas fa-phone mr-2"></i>+57 3142678451</p>
+                        <p><i class="fas fa-map-marker-alt mr-2"></i>Institución Educativa Julio Pérez Ferrero</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">© 2025 TecnoCare. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                // Close mobile menu if open
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section-fade').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Counter animation
+        function animateCounter(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                element.textContent = value;
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Trigger counter animations when stats section is visible
+        const statsSection = document.querySelector('.stat-counter');
+        if (statsSection) {
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.stat-counter').forEach(counter => {
+                            const target = parseInt(counter.getAttribute('data-target'));
+                            animateCounter(counter, 0, target, 2000);
+                        });
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            statsObserver.observe(statsSection);
+        }
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            const heroSection = document.querySelector('#inicio');
+            if (heroSection) {
+                heroSection.style.transform = `translateY(${rate}px)`;
+            }
+        });
+
+        // Enhanced card hover effects
+        document.querySelectorAll('.card-hover').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
+
